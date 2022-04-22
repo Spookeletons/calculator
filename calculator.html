@@ -10,6 +10,7 @@
             <div class="row">
                 <label for="num1">First Number</label>
                 <input type="text" id="num1" name="number1">
+
                 <label for="operation">Operation</label>
                 <select id="operation" name="operation">
                     <option value="+">Add (+)</option>
@@ -18,6 +19,7 @@
                     <option value="/">Divide (/)</option>
                     <option value="%">Mod (%)</option>
                 </select>
+
                 <label for="num2">Second Number</label>
                 <input type="text" id="num2" name="number2">
             </div>
@@ -34,11 +36,19 @@
     const answerList = document.getElementsByClassName('answers');
 
     button.addEventListener('click', function(e){
-        let fir = first.value;
-        let sec = second.value;
+        let fir = +first.value;
+        let sec = +second.value;
         let op = operation.value;
-        let ans = `${fir} ${op} ${sec}`;
-
+        let answer;
+        if(op === '+'){
+            answer = fir+sec;
+        }
+        const newElement = document.createElement('p');
+        newElement.innerHTML = `${answer}`;
+        answerList.insertAdjacentElement("afterbegin", newElement);
+        // first.value = "";
+        // second.value = "";
+        // operation.value = "+";
     })
 
 </script>
