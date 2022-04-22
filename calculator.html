@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="row">
+                <label for="num1">First Number</label>
+                <input type="text" id="num1" name="number1">
+                <label for="operation">Operation</label>
+                <select id="operation" name="operation">
+                    <option value="+">Add (+)</option>
+                    <option value="-">Subtract (-)</option>
+                    <option value="*">Multiply (*)</option>
+                    <option value="/">Divide (/)</option>
+                    <option value="%">Mod (%)</option>
+                </select>
+                <label for="num2">Second Number</label>
+                <input type="text" id="num2" name="number2">
+            </div>
+            <button id="calc">Calculate</button>
+            <p class="answers"></p>
+        </div>
+    </div>
+<script>
+    const content = document.querySelector('.content');
+    const first = document.getElementById('num1');
+    const second = document.getElementById('num2');
+    const operation = document.getElementById('operation');
+    const button = document.getElementById('calc');
+    const answerList = document.getElementsByClassName('answers');
+
+    button.addEventListener('click', function(e){
+        let fir = first.value;
+        let sec = second.value;
+        let op = operation.value;
+        let ans = `${fir} ${op} ${sec}`;
+
+    })
+
+</script>
+</body>
+</html>
