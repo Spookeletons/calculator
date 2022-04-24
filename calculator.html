@@ -5,16 +5,30 @@
     <link rel="stylesheet" href="style.css">
     <title>Calculator</title>
     <style>
-        .delete {
+        .dark {
             background-color:rgb(100,100,100);
             color:rgb(220,220,220);
         }
+        .hidden {
+            display:none;
+        }
+        .black {
+            background-color:black;
+            color:rgb(220,220,220);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <div class="content">
-            <div>
+            <button id="color">Light Mode</button>
+            <label for="calcType">Calculator Type</label>
+            <select id="calcType">
+                <option value="normal">Normal Operations</option>
+                <option value="quad">Quadratic Formula</option>
+            </select>
+            <div id="mode1">
                 <label for="num1">First Number</label>
                 <input type="text" id="num1" name="number1">
 
@@ -31,6 +45,30 @@
                 <label for="num2">Second Number</label>
                 <input type="text" id="num2" name="number2">
             </div>
+            <div id="mode2" class="hidden">
+                <div class="row">
+                    <div>
+                        <label for="a">A</label>
+                        <input type="text" id="a" name="a"
+                               style="width: 75px">
+                    </div>
+                    <div>
+                        <label for="b">B</label>
+                        <input type="text" id="b" name="b"
+                               style="width: 75px">
+                    </div>
+                    <div>
+                        <label for="c">C</label>
+                        <input type="text" id="c" name="c"
+                               style="width: 75px">
+                    </div>
+                    <div>
+                        <label for="digits">Digits After Decimal</label>
+                        <input type="text" id="digits" name="digits"
+                               style="width: 75px">
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <button id="calc">Calculate</button>
                 <button id="clear">Clear</button>
@@ -40,66 +78,231 @@
         </div>
     </div>
 <script>
-    let i = 0;
+
+    let colorVar = 0;
+    let deleteVar = 0;
+    let modeVar = 0;
+
+    const body = document.querySelector('body');
     const content = document.querySelector('.content');
+
+    const calcType = document.getElementById('calcType');
+    const normalMode = document.getElementById('mode1');
+    const quadMode = document.getElementById('mode2');
+
     const first = document.getElementById('num1');
     const second = document.getElementById('num2');
     const operation = document.getElementById('operation');
-    const button = document.getElementById('calc');
+
+    const a = document.getElementById('a');
+    const b = document.getElementById('b');
+    const c = document.getElementById('c');
+    const digits = document.getElementById('digits');
+
+    const calcButton = document.getElementById('calc');
     const answerList = document.getElementById('answers');
+
+    const colorButton = document.getElementById('color');
     const clear = document.getElementById('clear');
     const deleteButton = document.getElementById('deleteButton');
 
-    button.addEventListener('click', function(e){
-        let fir = +first.value;
-        let sec = +second.value;
-        let op = operation.value;
-        let answer;
+    const buttons = [calcButton, colorButton, clear, deleteButton];
 
-        if(op === '+'){
-            answer = fir + sec;
-        }
-        if(op === '-'){
-            answer = fir - sec;
-        }
-        if(op === '*'){
-            answer = fir * sec;
-        }
-        if(op === '/'){
-            answer = fir / sec;
-        }
-        if(op === '%'){
-            answer = fir % sec;
-        }
-        if(op === '^'){
-            answer = Math.pow(fir, sec);
-        }
+    if(modeVar === 0){
+        normalCalc();
+    }
 
-        const newElement = document.createElement('p');
-        newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
-        answerList.insertAdjacentElement("afterbegin", newElement);
+    calcType.addEventListener('change', function(){
+        modeVar += 1;
+        let value = calcType.value;
+        if(value === 'normal'){
+            normalMode.classList.remove('hidden');
+            quadMode.classList.add('hidden');
+            normalCalc();
+        }else if(value === 'quad'){
+            normalMode.classList.add('hidden');
+            quadMode.classList.remove('hidden');
+            quadCalc();
+        }
+    })
 
-        newElement.addEventListener('click', function(e){
-            if(i % 2 === 1){
-                newElement.remove();
+    function normalCalc(){
+        calcButton.addEventListener('click', function(e){
+            let fir = +first.value;
+            let sec = +second.value;
+            let op = operation.value;
+            let answer;
+
+            if(op === '+'){
+                answer = fir + sec;
             }
-        })
+            if(op === '-'){
+                answer = fir - sec;
+            }
+            if(op === '*'){
+                answer = fir * sec;
+            }
+            if(op === '/'){
+                answer = fir / sec;
+            }
+            if(op === '%'){
+                answer = fir % sec;
+            }
+            if(op === '^'){
+                answer = Math.pow(fir, sec);
+            }
 
-        first.value = "";
-        second.value = "";
-        operation.value = "+";
-    });
+            const newElement = document.createElement('p');
+            newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
+            answerList.insertAdjacentElement("afterbegin", newElement);
+
+            newElement.addEventListener('click', function(e){
+                if(deleteVar % 2 === 1){
+                    newElement.remove();
+                }
+            })
+
+            first.value = "";
+            second.value = "";
+            operation.value = "+";
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function quadCalc(){
+        const ans = document.createElement('p');
+
+        function isValid(numA, numB, numC){
+            if(isNaN(numA) || isNaN(numB) || isNaN(numC) || numA === 0){
+                return 'syntax';
+            }else if(Math.pow(numB,2) < 4*numA*numC){
+                return 'imaginary';
+            }
+        };
+
+        function answer1(A, B, C){
+            let x = ((-1*B + (Math.pow((Math.pow(B,2) - (4*A*C)), (1/2)))) / (2*A));
+            return x;
+        };
+        function answer2(A, B, C){
+            let x = ((-1*B - (Math.pow((Math.pow(B,2) - (4*A*C)), (1/2)))) / (2*A));
+            return x;
+        };
+
+        calcButton.addEventListener('click', function(e){
+            let na = +a.value;
+            let nb = +b.value;
+            let nc = +c.value;
+            let digit = +digits.value;
+            let error = isValid(na, nb, nc);
+            if(error==='syntax'){
+                ans.innerHTML = "Syntax Error";
+            }else if(error==='imaginary'){
+                ans.innerHTML = "This answer is imaginary, " +
+                    "and this calculator can't handle imaginary answers.";
+            }
+            let one = answer1(na, nb, nc);
+            let two = answer2(na, nb, nc);
+            if(isNaN(one) || isNaN(two)){
+                ans.innerHTML = "Unknown Error";
+            }
+            let roundNum = Math.pow(10, digit);
+            let roundOne = Math.round(roundNum*one)/roundNum;
+            let roundTwo = Math.round(roundNum*two)/roundNum;
+            if(roundOne === roundTwo){
+                ans.innerHTML = `x = ${roundOne}`;
+            }
+            ans.innerHTML = `x = ${roundOne}, ${roundTwo}`;
+        });
+        clear.addEventListener('click', function(e){
+            a.value = "";
+            b.value = "";
+            c.value = "";
+            digits.value = "";
+            ans.innerHTML = "";
+        });
+        answerList.insertAdjacentElement('afterbegin', ans);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     clear.addEventListener('click', function(e){
         answerList.innerHTML = "";
     });
     deleteButton.addEventListener('click', function(e){
-        i += 1;
-        if(i % 2 === 1){
-            deleteButton.classList.add('delete');
-        }else{
-            deleteButton.classList.remove('delete');
-        }
+        deleteVar += 1;
+        buttonColor();
     });
+
+    colorButton.addEventListener('click', function(e){
+        colorVar += 1;
+        if(colorVar % 2 === 1){
+            body.classList.add('black');
+            content.classList.add('dark');
+
+            calcButton.classList.add('dark');
+            colorButton.classList.add('dark');
+            clear.classList.add('dark');
+            buttonColor();
+        }else{
+            body.classList.remove('black');
+            content.classList.remove('dark');
+
+            calcButton.classList.remove('dark');
+            colorButton.classList.remove('dark');
+            clear.classList.remove('dark');
+            buttonColor();
+        }
+    })
+    function buttonColor(){
+        let buttonColor = colorVar + deleteVar;
+        if(buttonColor % 2 === 1){
+
+            deleteButton.classList.add('dark');
+            colorButton.innerHTML = 'Dark Mode';
+        }else{
+
+            deleteButton.classList.remove('dark');
+            colorButton.innerHTML = 'Light Mode';
+        }
+
+    }
 </script>
 </body>
 </html>
