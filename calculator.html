@@ -2,12 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <title>Calculator</title>
+    <style>
+        .delete {
+            background-color:rgb(100,100,100);
+            color:rgb(220,220,220);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="content">
-            <div class="row">
+            <div>
                 <label for="num1">First Number</label>
                 <input type="text" id="num1" name="number1">
 
@@ -18,39 +25,81 @@
                     <option value="*">Multiply (*)</option>
                     <option value="/">Divide (/)</option>
                     <option value="%">Mod (%)</option>
+                    <option value="^">To the Exponential Power of (^)</option>
                 </select>
 
                 <label for="num2">Second Number</label>
                 <input type="text" id="num2" name="number2">
             </div>
-            <button id="calc">Calculate</button>
-            <p class="answers"></p>
+            <div class="row">
+                <button id="calc">Calculate</button>
+                <button id="clear">Clear</button>
+            </div>
+            <button id="deleteButton">Delete Answers Upon Click</button>
+            <p id="answers"></p>
         </div>
     </div>
 <script>
+    let i = 0;
     const content = document.querySelector('.content');
     const first = document.getElementById('num1');
     const second = document.getElementById('num2');
     const operation = document.getElementById('operation');
     const button = document.getElementById('calc');
-    const answerList = document.getElementsByClassName('answers');
+    const answerList = document.getElementById('answers');
+    const clear = document.getElementById('clear');
+    const deleteButton = document.getElementById('deleteButton');
 
     button.addEventListener('click', function(e){
         let fir = +first.value;
         let sec = +second.value;
         let op = operation.value;
         let answer;
-        if(op === '+'){
-            answer = fir+sec;
-        }
-        const newElement = document.createElement('p');
-        newElement.innerHTML = `${answer}`;
-        answerList.insertAdjacentElement("afterbegin", newElement);
-        // first.value = "";
-        // second.value = "";
-        // operation.value = "+";
-    })
 
+        if(op === '+'){
+            answer = fir + sec;
+        }
+        if(op === '-'){
+            answer = fir - sec;
+        }
+        if(op === '*'){
+            answer = fir * sec;
+        }
+        if(op === '/'){
+            answer = fir / sec;
+        }
+        if(op === '%'){
+            answer = fir % sec;
+        }
+        if(op === '^'){
+            answer = Math.pow(fir, sec);
+        }
+
+        const newElement = document.createElement('p');
+        newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
+        answerList.insertAdjacentElement("afterbegin", newElement);
+
+        newElement.addEventListener('click', function(e){
+            if(i % 2 === 1){
+                newElement.remove();
+            }
+        })
+
+        first.value = "";
+        second.value = "";
+        operation.value = "+";
+    });
+    clear.addEventListener('click', function(e){
+        answerList.innerHTML = "";
+    });
+    deleteButton.addEventListener('click', function(e){
+        i += 1;
+        if(i % 2 === 1){
+            deleteButton.classList.add('delete');
+        }else{
+            deleteButton.classList.remove('delete');
+        }
+    });
 </script>
 </body>
 </html>
