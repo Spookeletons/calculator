@@ -20,63 +20,63 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <button id="color">Light Mode</button>
-            <label for="calcType">Calculator Type</label>
-            <select id="calcType">
-                <option value="normal">Normal Operations</option>
-                <option value="quad">Quadratic Formula</option>
+<div class="container">
+    <div class="content">
+        <button id="color">Light Mode</button>
+        <label for="calcType">Calculator Type</label>
+        <select id="calcType">
+            <option value="normal">Normal Operations</option>
+            <option value="quad">Quadratic Formula</option>
+        </select>
+        <div id="mode1">
+            <label for="num1">First Number</label>
+            <input type="text" id="num1" name="number1">
+
+            <label for="operation">Operation</label>
+            <select id="operation" name="operation">
+                <option value="+">Add (+)</option>
+                <option value="-">Subtract (-)</option>
+                <option value="*">Multiply (*)</option>
+                <option value="/">Divide (/)</option>
+                <option value="%">Mod (%)</option>
+                <option value="^">To the Exponential Power of (^)</option>
             </select>
-            <div id="mode1">
-                <label for="num1">First Number</label>
-                <input type="text" id="num1" name="number1">
 
-                <label for="operation">Operation</label>
-                <select id="operation" name="operation">
-                    <option value="+">Add (+)</option>
-                    <option value="-">Subtract (-)</option>
-                    <option value="*">Multiply (*)</option>
-                    <option value="/">Divide (/)</option>
-                    <option value="%">Mod (%)</option>
-                    <option value="^">To the Exponential Power of (^)</option>
-                </select>
-
-                <label for="num2">Second Number</label>
-                <input type="text" id="num2" name="number2">
-            </div>
-            <div id="mode2" class="hidden">
-                <div class="row">
-                    <div>
-                        <label for="a">A</label>
-                        <input type="text" id="a" name="a"
-                               style="width: 75px">
-                    </div>
-                    <div>
-                        <label for="b">B</label>
-                        <input type="text" id="b" name="b"
-                               style="width: 75px">
-                    </div>
-                    <div>
-                        <label for="c">C</label>
-                        <input type="text" id="c" name="c"
-                               style="width: 75px">
-                    </div>
-                    <div>
-                        <label for="digits">Digits After Decimal</label>
-                        <input type="text" id="digits" name="digits"
-                               style="width: 75px">
-                    </div>
+            <label for="num2">Second Number</label>
+            <input type="text" id="num2" name="number2">
+        </div>
+        <div id="mode2" class="hidden">
+            <div class="row">
+                <div>
+                    <label for="a">A</label>
+                    <input type="text" id="a" name="a"
+                           style="width: 75px">
+                </div>
+                <div>
+                    <label for="b">B</label>
+                    <input type="text" id="b" name="b"
+                           style="width: 75px">
+                </div>
+                <div>
+                    <label for="c">C</label>
+                    <input type="text" id="c" name="c"
+                           style="width: 75px">
+                </div>
+                <div>
+                    <label for="digits">Digits After Decimal</label>
+                    <input type="text" id="digits" name="digits"
+                           style="width: 75px">
                 </div>
             </div>
-            <div class="row">
-                <button id="calc">Calculate</button>
-                <button id="clear">Clear</button>
-            </div>
-            <button id="deleteButton">Delete Answers Upon Click</button>
-            <p id="answers"></p>
         </div>
+        <div class="row">
+            <button id="calc">Calculate</button>
+            <button id="clear">Clear</button>
+        </div>
+        <button id="deleteButton">Delete Answers Upon Click</button>
+        <p id="answers"></p>
     </div>
+</div>
 <script>
 
     let colorVar = 0;
@@ -232,13 +232,10 @@
                 ans.innerHTML = `x = ${roundOne}`;
             }
             ans.innerHTML = `x = ${roundOne}, ${roundTwo}`;
-        });
-        clear.addEventListener('click', function(e){
             a.value = "";
             b.value = "";
             c.value = "";
             digits.value = "";
-            ans.innerHTML = "";
         });
         answerList.insertAdjacentElement('afterbegin', ans);
     }
