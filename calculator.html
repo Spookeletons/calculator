@@ -106,7 +106,7 @@
     const clear = document.getElementById('clear');
     const deleteButton = document.getElementById('deleteButton');
 
-    const buttons = [calcButton, colorButton, clear, deleteButton];
+
 
     if(modeVar === 0){
         normalCalc();
@@ -127,35 +127,36 @@
     })
 
     function normalCalc(){
-        calcButton.addEventListener('click', function(e){
+        calcButton.addEventListener('click', function(e) {
             let fir = +first.value;
             let sec = +second.value;
             let op = operation.value;
             let answer;
 
-            if(op === '+'){
+            if (op === '+') {
                 answer = fir + sec;
             }
-            if(op === '-'){
+            if (op === '-') {
                 answer = fir - sec;
             }
-            if(op === '*'){
+            if (op === '*') {
                 answer = fir * sec;
             }
-            if(op === '/'){
+            if (op === '/') {
                 answer = fir / sec;
             }
-            if(op === '%'){
+            if (op === '%') {
                 answer = fir % sec;
             }
-            if(op === '^'){
+            if (op === '^') {
                 answer = Math.pow(fir, sec);
             }
 
             const newElement = document.createElement('p');
             newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
-            answerList.insertAdjacentElement("afterbegin", newElement);
-
+            if(newElement.innerHTML !== '0 + 0 = 0') {
+                answerList.insertAdjacentElement("afterbegin", newElement);
+            }
             newElement.addEventListener('click', function(e){
                 if(deleteVar % 2 === 1){
                     newElement.remove();
@@ -238,6 +239,7 @@
             digits.value = "";
         });
         answerList.insertAdjacentElement('afterbegin', ans);
+        ans.addEventListener('')
     }
 
 
