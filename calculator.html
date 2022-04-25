@@ -154,15 +154,15 @@
 
             const newElement = document.createElement('p');
             newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
-            if(newElement.innerHTML !== '0 + 0 = 0') {
-                answerList.insertAdjacentElement("afterbegin", newElement);
-            }
+
             newElement.addEventListener('click', function(e){
                 if(deleteVar % 2 === 1){
                     newElement.remove();
                 }
             })
-
+            if(newElement.innerHTML !== '0 + 0 = 0') {
+                answerList.insertAdjacentElement("afterbegin", newElement);
+            }
             first.value = "";
             second.value = "";
             operation.value = "+";
@@ -190,8 +190,6 @@
 
 
     function quadCalc(){
-        const ans = document.createElement('p');
-
         function isValid(numA, numB, numC){
             if(isNaN(numA) || isNaN(numB) || isNaN(numC) || numA === 0){
                 return 'syntax';
@@ -215,31 +213,47 @@
             let nc = +c.value;
             let digit = +digits.value;
             let error = isValid(na, nb, nc);
+            let one = answer1(na, nb, nc);
+            let two = answer2(na, nb, nc);
+            let roundNum = Math.pow(10, digit);
+            let roundOne = Math.round(roundNum*one)/roundNum;
+            let roundTwo = Math.round(roundNum*two)/roundNum;
+            a.value = "";
+            b.value = "";
+            c.value = "";
+            digits.value = "";
+
+            const ans = document.createElement('p');
+
             if(error==='syntax'){
                 ans.innerHTML = "Syntax Error";
             }else if(error==='imaginary'){
                 ans.innerHTML = "This answer is imaginary, " +
                     "and this calculator can't handle imaginary answers.";
             }
-            let one = answer1(na, nb, nc);
-            let two = answer2(na, nb, nc);
+
             if(isNaN(one) || isNaN(two)){
                 ans.innerHTML = "Unknown Error";
             }
-            let roundNum = Math.pow(10, digit);
-            let roundOne = Math.round(roundNum*one)/roundNum;
-            let roundTwo = Math.round(roundNum*two)/roundNum;
-            if(roundOne === roundTwo){
-                ans.innerHTML = `x = ${roundOne}`;
-            }
-            ans.innerHTML = `x = ${roundOne}, ${roundTwo}`;
-            a.value = "";
-            b.value = "";
-            c.value = "";
-            digits.value = "";
+            ans.innerHTML = `When ${na}x^2 + ${nb}x + ${nc} = 0,
+                x = ${roundOne}`;
+            ans.innerHTML = `When ${na}x^2 + ${nb}x + ${nc} = 0,
+                x = ${roundOne}, ${roundTwo}`;
+
+
+            ans.addEventListener('click', function(e){
+                if(deleteVar % 2 === 1){
+                    ans.remove();
+                }
+            })
+
+
+            answerList.insertAdjacentElement('afterbegin', ans);
+
+
+
         });
-        answerList.insertAdjacentElement('afterbegin', ans);
-        ans.addEventListener('')
+
     }
 
 
