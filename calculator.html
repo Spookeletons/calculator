@@ -99,12 +99,14 @@
     const c = document.getElementById('c');
     const digits = document.getElementById('digits');
 
-    const calcButton = document.getElementById('calc');
+
     const answerList = document.getElementById('answers');
+    const calcButton = document.getElementById('calc');
 
     const colorButton = document.getElementById('color');
     const clear = document.getElementById('clear');
     const deleteButton = document.getElementById('deleteButton');
+    const buttons = [deleteButton, calcButton, colorButton, clear];
 
 
 
@@ -300,19 +302,28 @@
         colorVar += 1;
         if(colorVar % 2 === 1){
             body.classList.add('black');
+
+            for(let i=0; i<buttons.length; i++){
+                buttons[i].classList.add('dark');
+            }
+
             content.classList.add('dark');
 
-            calcButton.classList.add('dark');
-            colorButton.classList.add('dark');
-            clear.classList.add('dark');
+            // calcButton.classList.add('dark');
+            // colorButton.classList.add('dark');
+            // clear.classList.add('dark');
             buttonColor();
         }else{
             body.classList.remove('black');
+            for(let i=0; i<buttons.length; i++){
+                buttons[i].classList.remove('dark');
+            }
+
             content.classList.remove('dark');
 
-            calcButton.classList.remove('dark');
-            colorButton.classList.remove('dark');
-            clear.classList.remove('dark');
+            // calcButton.classList.remove('dark');
+            // colorButton.classList.remove('dark');
+            // clear.classList.remove('dark');
             buttonColor();
         }
     })
