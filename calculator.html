@@ -128,47 +128,49 @@
         }
     })
 
-    function normalCalc(){
-        calcButton.addEventListener('click', function(e) {
-            let fir = +first.value;
-            let sec = +second.value;
-            let op = operation.value;
-            let answer;
+    function normalCalc() {
+        if(modeVar === 0) {
+            calcButton.addEventListener('click', function (e) {
+                let fir = +first.value;
+                let sec = +second.value;
+                let op = operation.value;
+                let answer;
 
-            if (op === '+') {
-                answer = fir + sec;
-            }
-            if (op === '-') {
-                answer = fir - sec;
-            }
-            if (op === '*') {
-                answer = fir * sec;
-            }
-            if (op === '/') {
-                answer = fir / sec;
-            }
-            if (op === '%') {
-                answer = fir % sec;
-            }
-            if (op === '^') {
-                answer = Math.pow(fir, sec);
-            }
-
-            const newElement = document.createElement('p');
-            newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
-
-            newElement.addEventListener('click', function(e){
-                if(deleteVar % 2 === 1){
-                    newElement.remove();
+                if (op === '+') {
+                    answer = fir + sec;
                 }
-            })
-             if(calcType.value === 'normal' && newElement.innerHTML !== '0 + 0 = 0'){
-                answerList.insertAdjacentElement("afterbegin", newElement);
-            }
-            first.value = "";
-            second.value = "";
-            operation.value = "+";
-        });
+                if (op === '-') {
+                    answer = fir - sec;
+                }
+                if (op === '*') {
+                    answer = fir * sec;
+                }
+                if (op === '/') {
+                    answer = fir / sec;
+                }
+                if (op === '%') {
+                    answer = fir % sec;
+                }
+                if (op === '^') {
+                    answer = Math.pow(fir, sec);
+                }
+
+                const newElement = document.createElement('p');
+                newElement.innerHTML = `${fir} ${op} ${sec} = ${answer}`;
+
+                newElement.addEventListener('click', function (e) {
+                    if (deleteVar % 2 === 1) {
+                        newElement.remove();
+                    }
+                })
+                if (calcType.value === 'normal') {
+                    answerList.insertAdjacentElement("afterbegin", newElement);
+                }
+                first.value = "";
+                second.value = "";
+                operation.value = "+";
+            });
+        }
     }
 
 
@@ -235,44 +237,46 @@
         calcType.addEventListener('change', function(){
            changeVar += 1;
         });
+        if(modeVar === 1){
+            calcButton.addEventListener('click', function(e) {
+                let na = +a.value;
+                let nb = +b.value;
+                let nc = +c.value;
+                let digit = +digits.value;
+                let error = isValid(na, nb, nc);
+                let one = answer1(na, nb, nc);
+                let two = answer2(na, nb, nc);
+                let roundNum = Math.pow(10, digit);
+                let roundOne = Math.round(roundNum * one) / roundNum;
+                let roundTwo = Math.round(roundNum * two) / roundNum;
+                a.value = "";
+                b.value = "";
+                c.value = "";
+                digits.value = "";
 
-        calcButton.addEventListener('click', function(e) {
-            let na = +a.value;
-            let nb = +b.value;
-            let nc = +c.value;
-            let digit = +digits.value;
-            let error = isValid(na, nb, nc);
-            let one = answer1(na, nb, nc);
-            let two = answer2(na, nb, nc);
-            let roundNum = Math.pow(10, digit);
-            let roundOne = Math.round(roundNum * one) / roundNum;
-            let roundTwo = Math.round(roundNum * two) / roundNum;
-            a.value = "";
-            b.value = "";
-            c.value = "";
-            digits.value = "";
+                const ans = document.createElement('p');
 
-            const ans = document.createElement('p');
+                let solution = solve(error, ans, one, two, roundOne, roundTwo, na, nb, nc);
 
-            let solution = solve(error, ans, one, two, roundOne, roundTwo, na, nb, nc);
-
-            ans.innerHTML = `${solution}`;
-
-
+                ans.innerHTML = `${solution}`;
 
 
-            ans.addEventListener('click', function (e) {
-                if (deleteVar % 2 === 1) {
-                    ans.remove();
+
+
+                ans.addEventListener('click', function (e) {
+                    if (deleteVar % 2 === 1) {
+                        ans.remove();
+                    }
+                })
+                if (calcType.value === 'quad') {
+                    answerList.insertAdjacentElement('afterbegin', ans);
                 }
-            })
-            if (calcType.value === 'quad') {
-                answerList.insertAdjacentElement('afterbegin', ans);
-            }
 
 
 
-        });
+            });
+        }
+
         modeVar.addEventListener('change', function(){
             calcButton.removeEventListener('click', function(e){
 
