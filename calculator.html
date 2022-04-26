@@ -208,11 +208,32 @@
     };
 
 
+    function solve(error, ans, one, two, roundOne, roundTwo, na, nb, nc){
+        if (error === 'syntax') {
+            ans = "Syntax Error";
+        } else if (error === 'imaginary') {
+            ans = "This answer is imaginary, " +
+                "and this calculator can't handle imaginary answers.";
+        }else if (isNaN(one) || isNaN(two)) {
+            ans = "Unknown Error";
+        }else{
+            if(one === two){
+                ans = `When ${na}x^2 + ${nb}x + ${nc} = 0,
+                    x = ${roundOne}`;
+            }else{
+                ans = `When ${na}x^2 + ${nb}x + ${nc} = 0,
+                    x = ${roundOne}, ${roundTwo}`;
+            }
+
+        }
+        return ans;
+    }
+
     function quadCalc(){
 
         let changeVar = 0;
         calcType.addEventListener('change', function(){
-           changeVar = 1;
+           changeVar += 1;
         });
 
         calcButton.addEventListener('click', function(e) {
@@ -233,25 +254,9 @@
 
             const ans = document.createElement('p');
 
-            if (error === 'syntax') {
-                ans.innerHTML = "Syntax Error";
-            } else if (error === 'imaginary') {
-                ans.innerHTML = "This answer is imaginary, " +
-                    "and this calculator can't handle imaginary answers.";
-            }else if (isNaN(one) || isNaN(two)) {
-                ans.innerHTML = "Unknown Error";
-            }else{
-                if(one === two){
-                    ans.innerHTML = `When ${na}x^2 + ${nb}x + ${nc} = 0,
-                    x = ${roundOne}`;
-                }else{
-                    ans.innerHTML = `When ${na}x^2 + ${nb}x + ${nc} = 0,
-                    x = ${roundOne}, ${roundTwo}`;
-                }
+            let solution = solve(error, ans, one, two, roundOne, roundTwo, na, nb, nc);
 
-            }
-
-
+            ans.innerHTML = `${solution}`;
 
 
 
@@ -268,6 +273,11 @@
 
 
         });
+        modeVar.addEventListener('change', function(){
+            calcButton.removeEventListener('click', function(e){
+
+            });
+        })
 
     }
 
@@ -303,40 +313,29 @@
         if(colorVar % 2 === 1){
             body.classList.add('black');
 
-            for(let i=0; i<buttons.length; i++){
-                buttons[i].classList.add('dark');
+            for(let i=0; i<buttons.length-1; i++){
+                buttons[i+1].classList.add('dark');
             }
 
             content.classList.add('dark');
-
-            // calcButton.classList.add('dark');
-            // colorButton.classList.add('dark');
-            // clear.classList.add('dark');
+            colorButton.innerHTML = 'Dark Mode';
             buttonColor();
         }else{
             body.classList.remove('black');
-            for(let i=0; i<buttons.length; i++){
-                buttons[i].classList.remove('dark');
+            for(let i=0; i<buttons.length-1; i++){
+                buttons[i+1].classList.remove('dark');
             }
-
             content.classList.remove('dark');
-
-            // calcButton.classList.remove('dark');
-            // colorButton.classList.remove('dark');
-            // clear.classList.remove('dark');
+            colorButton.innerHTML = 'Light Mode';
             buttonColor();
         }
     })
     function buttonColor(){
         let buttonColor = colorVar + deleteVar;
         if(buttonColor % 2 === 1){
-
             deleteButton.classList.add('dark');
-            colorButton.innerHTML = 'Dark Mode';
         }else{
-
             deleteButton.classList.remove('dark');
-            colorButton.innerHTML = 'Light Mode';
         }
 
     }
